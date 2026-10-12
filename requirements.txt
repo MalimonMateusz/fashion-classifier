@@ -1,0 +1,21 @@
+ipython>=8.10
+jupyterlab>=3.0
+notebook
+kedro~=1.7.0
+kedro-datasets[pandas-csvdataset,pandas-parquetdataset]
+kedro-viz
+
+# scraping (scripts/scrape_erli.py)
+requests
+beautifulsoup4
+lxml
+pyyaml
+tqdm
+
+# dane / modele
+pandas
+pillow
+imagehash
+opencv-python
+scikit-learn
+matplotlib

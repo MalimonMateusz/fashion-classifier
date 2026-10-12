@@ -1,0 +1,47 @@
+# Konfiguracja scrapera erli.pl (scripts/scrape_erli.py)
+#
+# Kazda klasa ma liste kategorii-zrodel. Limit `per_class` dzielony jest rowno
+# miedzy zrodla, zeby klasy heterogeniczne (np. galanteria) nie zostaly
+# zdominowane przez jedna podkategorie z poczatku listingu.
+
+base_url: https://erli.pl
+user_agent: "erli-machine-vision-recruitment-task/0.1"  # mozesz dopisac kontakt, np. (+mailto:...)
+per_class: 1200
+image_size: s2          # s2 = 268x268 px, l = 610x610 px
+request_delay_s: 3.0        # odstep po kazdym zapytaniu o strone listingu
+image_delay_s: 0.1          # odstep miedzy pobraniami zdjec (CDN i.erli.pl)
+max_request_delay_s: 20.0   # gorny limit odstepu po kolejnych blokadach
+slowdown_factor: 1.5        # po kazdej blokadzie odstep *= 1.5
+
+# Ochrona anty-botowa (403 + captcha): czekamy z wykladniczym backoffem
+block_wait_initial_s: 900   # 15 min
+block_wait_max_s: 3600      # 60 min
+give_up_after_s: 21600      # po 6 h lacznego czekania konczymy (dane sa zapisane)
+max_pages: 167          # erli serwuje max 167 stron (~10k produktow) na kategorie
+
+classes:
+  buty_meskie:
+    - buty-meskie,6949
+  buty_damskie:
+    - buty-damskie,6925
+  okrycia_wierzchnie_meskie:
+    - odziez-meska-okrycia-wierzchnie,6895
+  okrycia_wierzchnie_damskie:
+    - odziez-kobieca-okrycia-wierzchnie,6859
+  bluzy_meskie:
+    - odziez-meska-bluzy,6881
+  bluzy_damskie:
+    - odziez-kobieca-bluzy,6845
+  galanteria_i_akcesoria:
+    - galanteria-i-akcesoria-paski,6990
+    - galanteria-i-akcesoria-portfele,6992
+    - galanteria-i-akcesoria-okulary-przeciwsloneczne,6986
+    - galanteria-i-akcesoria-nakrycia-glowy,6973
+    - galanteria-i-akcesoria-szaliki-i-szale,6996
+    - galanteria-i-akcesoria-rekawiczki,6994
+    - galanteria-i-akcesoria-plecaki,6991
+    - galanteria-i-akcesoria-krawaty,6971
+  bizuteria_damska:
+    - bizuteria-i-zegarki-bizuteria-damska,6733
+  zegarki:
+    - bizuteria-i-zegarki-zegarki,6770
