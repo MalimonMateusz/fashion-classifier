@@ -4,7 +4,7 @@
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![OpenCV](https://img.shields.io/badge/inference-OpenCV%20cv2.dnn-5C3EE8?logo=opencv)
 
-Zadanie rekrutacyjne dla **erli.pl**: zescrapować dział [Moda](https://erli.pl/moda,6731) i zbudować model,
+Projekt: zescrapować dział [Moda](https://erli.pl/moda,6731) z **erli.pl** i zbudować model,
 który na podstawie **samego zdjęcia** przypisuje produkt do jednej z 9 kategorii:
 
 `buty_meskie` · `buty_damskie` · `okrycia_wierzchnie_meskie` · `okrycia_wierzchnie_damskie` · `bluzy_meskie` ·
@@ -35,17 +35,16 @@ $ python scripts/predict.py data/01_raw/images/zegarki/136179218.webp
 1. [Podejście](#podejście)
 2. [Dane](#dane)
 3. [Modele i wyniki](#modele-i-wyniki)
-4. [Analiza błędów — skąd się bierze 10%](#analiza-błędów--skąd-się-bierze-10)
+4. [Analiza błędów](#analiza-błędów)
 5. [Wdrożenie: OpenCV `cv2.dnn`](#wdrożenie-opencv-cv2dnn)
 6. [Jak uruchomić](#jak-uruchomić)
 7. [Struktura projektu](#struktura-projektu)
-8. [Ograniczenia i dalsze kroki](#ograniczenia-i-dalsze-kroki)
 
 ---
 
 ## Podejście
 
-Zamiast od razu trenować jedną sieć, potraktowałem zadanie jak mały projekt badawczy: porównałem
+Zamiast od razu trenować jedną sieć, porównałem
 **7 podejść** — od klasycznego computer vision w OpenCV po nowoczesne modele *vision-language* —
 na tych samych, uczciwie podzielonych danych.
 
@@ -59,19 +58,6 @@ flowchart LR
     F --> G[deployment<br/>eksport ONNX · weryfikacja cv2.dnn]
     G --> H[scripts/predict.py<br/>tylko OpenCV + numpy]
 ```
-
-Kluczowe decyzje:
-
-- **Zamrożony backbone + lekka głowica.** Embeddingi liczone są raz i cache'owane w `data/04_feature`,
-  a trening klasyfikatora trwa sekundy. Na CPU (Ryzen 5 5600, bez GPU) to pozwoliło porównać wiele
-  backbone'ów zamiast fine-tunować jeden. Przy 7.5k zdjęć *linear probe* na dobrym backbonie jest też
-  mniej podatny na przeuczenie niż fine-tuning.
-- **Jeden preprocessing dla treningu i produkcji.** `vision.preprocess()` (resize + center crop +
-  normalizacja w OpenCV/numpy) jest używany zarówno przy ekstrakcji cech w PyTorchu, jak i przy
-  inferencji `cv2.dnn` — brak rozjazdów typu „torchvision resize ≠ cv2 resize”.
-- **Hiperparametry wybierane na walidacji, test nietknięty** do końcowej ewaluacji.
-- **Wszystko jako pipeline Kedro** — każdy krok jest odtwarzalny jednym `kedro run`, parametry są w
-  `conf/base/parameters_*.yml`, a artefakty w warstwach `data/01_raw … 08_reporting`.
 
 ---
 
@@ -158,34 +144,16 @@ Wnioski:
 
 ---
 
-## Analiza błędów — skąd się bierze 10%
+## Analiza błędów
 
-Macierz pomyłek pokazuje, że model **praktycznie nie myli typów produktów** — błędy to niemal
-wyłącznie **damskie ↔ męskie** w obrębie bluz i butów. Po scaleniu płci (5 typów produktu) accuracy
-na teście rośnie z 90.1% do **98.4%**.
-
-Najpewniejsze błędy modelu wyjaśniają dlaczego:
+Model **praktycznie nie myli typów produktów** — błędy to niemal wyłącznie **damskie ↔ męskie**
+w obrębie bluz i butów. Po scaleniu płci accuracy na teście rośnie z 90.1% do **98.4%**.
 
 ![Najpewniejsze błędy](docs/img/top_errors.png)
 
-1. **Etykieta nie wynika ze zdjęcia.** Większość błędów to bluzy z nadrukiem (Marvel, AC/DC,
-   Deadpool, Eminem…) na identycznym czarnym/białym szablonie na wieszaku. Wersja „damska” i
-   „męska” to **piksel w piksel to samo zdjęcie** — płeć jest tylko w tytule oferty. Podobnie z
-   kapciami, klapkami czy sneakersami — to w praktyce produkty unisex.
-2. **Jeden sprzedawca dominuje test.** Te bluzy pochodzą z jednego katalogu, który przez podobne
-   zdjęcia tworzy jedną grupę 85 produktów. Ponieważ split jest rozłączny po grupach, cała grupa
-   trafiła do testu — to **85 ze 108** bluz damskich w teście (w train/val takie zdjęcia to ~2%).
-3. **W treningu ten szablon jest głównie „męski”** (93 męskie vs 34 damskie oferty), więc model
-   nauczył się reguły „bluza z nadrukiem na wieszaku → męska” i myli się z wysoką pewnością.
-
-Bez tej jednej grupy accuracy na teście wynosi **93.6%** — zgodnie z walidacją (94.5%). Różnica
-val/test nie jest więc przeuczeniem, tylko efektem *distribution shift* w jednym katalogu
-sprzedawcy, który split po grupach celowo wypchnął w całości do testu.
-
-**Dlaczego nie augmentacja?** Flip, crop czy jitter kolorów zwiększają różnorodność zdjęć, ale nie
-dodają informacji o płci, której na zdjęciu po prostu nie ma — a jitter kolorów mógłby wręcz
-zaszkodzić, bo kolor jest jednym z nielicznych realnych sygnałów płci. Problem leży w etykietach,
-nie w ilości danych.
+Większość błędów to bluzy z nadrukiem na identycznym szablonie na wieszaku — wersja damska i męska
+to to samo zdjęcie, płeć jest tylko w tytule oferty. Do tego jeden katalog takich bluz (85 produktów)
+trafił w całości do testu. Bez niego accuracy na teście wynosi **93.6%**, zgodnie z walidacją (94.5%).
 
 ---
 
@@ -297,23 +265,3 @@ walidację uszkodzonych zdjęć, klasyfikatory oraz zgodność preprocessingu.
 ├── docs/img/                   # wykresy użyte w README
 └── tests/
 ```
-
----
-
-## Ograniczenia i dalsze kroki
-
-- **Płeć jako osobny problem.** Naturalny następny krok to rozbicie predykcji na *typ produktu*
-  (98% accuracy) i *płeć* z opcją „unisex / niepewne” przy niskiej pewności. W praktyce na
-  marketplace to lepsze niż zgadywanie — przy niepewności można poprosić sprzedawcę o
-  doprecyzowanie kategorii.
-- **Tekst oferty.** Płeć niemal zawsze jest w tytule. Model multimodalny (CLIP ma już enkoder
-  tekstu) łączący zdjęcie i tytuł rozwiązałby większość pozostałych błędów — świadomie się tu
-  ograniczyłem do samego obrazu, zgodnie z treścią zadania.
-- **Split po sprzedawcach.** Dane nie zawierają ID sprzedawcy; grupowanie po phash/tytule jest
-  jego przybliżeniem. Split po sprzedawcy dałby jeszcze uczciwszą estymację na nowych katalogach.
-- **Fine-tuning backbone'u** (np. na GPU) prawdopodobnie dałby kilka punktów na walidacji, ale nie
-  usunie błędów wynikających z niejednoznacznych etykiet.
-- **Mniejszy model produkcyjny.** ViT-B/16 to ~345 MB i ~120 ms/zdjęcie na CPU. Jeśli liczy się
-  koszt, ViT-B/32 jest ~4× szybszy kosztem ~3 pp accuracy; można też skwantyzować ONNX do INT8.
-- **Dane pochodzą z jednego momentu w czasie** i z miniatur 268×268 px — asortyment i styl zdjęć
-  na marketplace się zmieniają, więc model wymagałby okresowego douczania.
