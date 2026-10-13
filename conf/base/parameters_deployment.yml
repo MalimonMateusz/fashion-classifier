@@ -1,0 +1,4 @@
+deployment:
+  opset: 18
+  min_agreement: 0.99   # cv2.dnn musi zgadzac sie z pipeline'em na >= 99% obrazow testowych
+  max_images: null      # null = caly zbior testowy

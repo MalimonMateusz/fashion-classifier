@@ -1,0 +1,8 @@
+{
+  "input": 10754,
+  "dropped_cross_class_duplicates": 91,
+  "dropped_same_class_duplicates": 3109,
+  "dropped_gender_mismatch": 79,
+  "output": 7500,
+  "groups": 5796
+}

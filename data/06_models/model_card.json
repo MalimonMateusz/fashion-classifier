@@ -1,0 +1,42 @@
+{
+  "model": "clip_vit_b16_probe",
+  "backbone": {
+    "library": "open_clip",
+    "model": "ViT-B-16",
+    "pretrained": "datacomp_xl_s13b_b90k"
+  },
+  "classes": [
+    "bizuteria_damska",
+    "bluzy_damskie",
+    "bluzy_meskie",
+    "buty_damskie",
+    "buty_meskie",
+    "galanteria_i_akcesoria",
+    "okrycia_wierzchnie_damskie",
+    "okrycia_wierzchnie_meskie",
+    "zegarki"
+  ],
+  "preprocess": {
+    "input_size": 224,
+    "crop_pct": 1.0,
+    "mean": [
+      0.48145466,
+      0.4578275,
+      0.40821073
+    ],
+    "std": [
+      0.26862954,
+      0.26130258,
+      0.27577711
+    ],
+    "interpolation": "bicubic"
+  },
+  "input": "RGB, preprocess() z erli_machine_vision.vision, NCHW float32",
+  "output": "prawdopodobienstwa klas (softmax), kolejnosc jak w `classes`",
+  "metrics": {
+    "val_accuracy": 0.945,
+    "val_macro_f1": 0.9406,
+    "test_accuracy": 0.9011,
+    "test_macro_f1": 0.8908
+  }
+}

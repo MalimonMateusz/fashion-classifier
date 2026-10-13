@@ -1,0 +1,9 @@
+training:
+  linear_probe:
+    c_grid: [0.1, 0.3, 1.0, 3.0, 10.0, 30.0]  # wybor na val wg macro-F1
+    max_iter: 3000
+
+  handcrafted_svm:
+    pca_components: 256
+    c_grid: [1.0, 3.0, 10.0]
+    seed: 42

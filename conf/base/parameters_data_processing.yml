@@ -1,0 +1,19 @@
+data_processing:
+  validation:
+    min_side_px: 100      # odrzucamy miniatury mniejsze niz 100 px
+    min_gray_std: 5.0     # odrzucamy niemal jednolite obrazki (puste/placeholdery)
+
+  dedup:
+    duplicate_max_distance: 0   # phash (64 bit) identyczny = to samo zdjecie (np. warianty rozmiarowe)
+                                # juz 2-4 bity roznicy to czesto inny nadruk/kolor na tym samym szablonie
+    group_max_distance: 6       # <= 6 bitow = ten sam szablon/produkt -> ta sama grupa (przy 10 union-find
+                                # skleja lancuchowo grupy po 300+ zdjec)
+    drop_gender_mismatch: true  # np. "damska" w tytule oferty z klasy meskiej
+
+  split:
+    test_size: 0.15       # val ma ten sam rozmiar co test
+    seed: 42
+
+  report:
+    samples_per_class: 8
+    seed: 42

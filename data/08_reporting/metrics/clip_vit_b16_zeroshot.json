@@ -1,0 +1,7 @@
+{
+  "model": "clip_vit_b16_zeroshot",
+  "val_accuracy": 0.8889925373134329,
+  "val_macro_f1": 0.8791755348255168,
+  "test_accuracy": 0.8684701492537313,
+  "test_macro_f1": 0.8574089545260585
+}

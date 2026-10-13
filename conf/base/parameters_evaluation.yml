@@ -1,0 +1,2 @@
+evaluation:
+  n_error_examples: 18   # ile najpewniejszych bledow pokazac w raporcie

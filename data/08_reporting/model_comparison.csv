@@ -1,0 +1,8 @@
+model,val_accuracy,val_macro_f1,test_accuracy,test_macro_f1
+clip_vit_b16_probe,0.945,0.9406,0.9011,0.8908
+clip_vit_b32_probe,0.9049,0.8935,0.8666,0.8514
+convnext_tiny_probe,0.9021,0.8898,0.8358,0.81
+clip_vit_b16_zeroshot,0.889,0.8792,0.8685,0.8574
+efficientnet_b0_probe,0.8713,0.8563,0.8013,0.7721
+clip_vit_b32_zeroshot,0.834,0.82,0.8218,0.8087
+handcrafted_svm,0.7453,0.7284,0.6772,0.6526

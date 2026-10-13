@@ -1,0 +1,7 @@
+{
+  "model": "convnext_tiny_probe",
+  "val_accuracy": 0.9020522388059702,
+  "val_macro_f1": 0.8897897305806851,
+  "test_accuracy": 0.835820895522388,
+  "test_macro_f1": 0.8100456168560897
+}

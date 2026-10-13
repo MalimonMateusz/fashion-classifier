@@ -2,7 +2,8 @@ ipython>=8.10
 jupyterlab>=3.0
 notebook
 kedro~=1.7.0
-kedro-datasets[pandas-csvdataset,pandas-parquetdataset]
+kedro-datasets[pandas-csvdataset,pandas-parquetdataset,json-jsondataset,pickle-pickledataset,matplotlib-matplotlibdataset]
+pyarrow
 kedro-viz
 
 # scraping (scripts/scrape_erli.py)
@@ -16,6 +17,13 @@ tqdm
 pandas
 pillow
 imagehash
-opencv-python
+opencv-contrib-python>=5.0  # HOGDescriptor przeniesiono w OpenCV 5 do contrib
 scikit-learn
 matplotlib
+torch
+torchvision
+timm
+open_clip_torch
+onnx
+onnxscript
+onnxruntime

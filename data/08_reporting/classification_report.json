@@ -1,0 +1,69 @@
+{
+  "bizuteria_damska": {
+    "precision": 1.0,
+    "recall": 0.9714285714285714,
+    "f1-score": 0.9855072463768116,
+    "support": 140.0
+  },
+  "bluzy_damskie": {
+    "precision": 0.8888888888888888,
+    "recall": 0.5925925925925926,
+    "f1-score": 0.7111111111111111,
+    "support": 108.0
+  },
+  "bluzy_meskie": {
+    "precision": 0.6887417218543046,
+    "recall": 0.9285714285714286,
+    "f1-score": 0.7908745247148289,
+    "support": 112.0
+  },
+  "buty_damskie": {
+    "precision": 0.859375,
+    "recall": 0.859375,
+    "f1-score": 0.859375,
+    "support": 128.0
+  },
+  "buty_meskie": {
+    "precision": 0.8333333333333334,
+    "recall": 0.8252427184466019,
+    "f1-score": 0.8292682926829268,
+    "support": 103.0
+  },
+  "galanteria_i_akcesoria": {
+    "precision": 0.9617834394904459,
+    "recall": 0.9869281045751634,
+    "f1-score": 0.9741935483870968,
+    "support": 153.0
+  },
+  "okrycia_wierzchnie_damskie": {
+    "precision": 0.9647058823529412,
+    "recall": 0.9318181818181818,
+    "f1-score": 0.9479768786127167,
+    "support": 88.0
+  },
+  "okrycia_wierzchnie_meskie": {
+    "precision": 0.9135802469135802,
+    "recall": 0.925,
+    "f1-score": 0.9192546583850931,
+    "support": 80.0
+  },
+  "zegarki": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 160.0
+  },
+  "accuracy": 0.9011194029850746,
+  "macro avg": {
+    "precision": 0.9011565014259438,
+    "recall": 0.8912173997147268,
+    "f1-score": 0.8908401400300652,
+    "support": 1072.0
+  },
+  "weighted avg": {
+    "precision": 0.9086807927455214,
+    "recall": 0.9011194029850746,
+    "f1-score": 0.8999790543834966,
+    "support": 1072.0
+  }
+}

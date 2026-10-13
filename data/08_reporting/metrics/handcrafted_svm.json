@@ -1,0 +1,7 @@
+{
+  "model": "handcrafted_svm",
+  "val_accuracy": 0.7453358208955224,
+  "val_macro_f1": 0.7283907081005044,
+  "test_accuracy": 0.6772388059701493,
+  "test_macro_f1": 0.6525748884805397
+}

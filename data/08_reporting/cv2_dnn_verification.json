@@ -1,0 +1,8 @@
+{
+  "opencv_version": "5.0.0",
+  "n_images": 1072,
+  "cv2_test_accuracy": 0.9011194029850746,
+  "agreement_with_pipeline": 1.0,
+  "max_abs_confidence_diff": 6.020069122314453e-06,
+  "latency_ms_median": 118.69135000051756
+}

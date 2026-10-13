@@ -1,4 +1,100 @@
-# Here you can define all your datasets by using simple YAML syntax.
-#
-# Documentation for this file format can be found in "The Data Catalog"
-# Link: https://docs.kedro.org/en/stable/catalog-data/introduction/#data-catalog
+# Katalog danych. Zdjecia leza w data/01_raw/images/<klasa>/<id>.webp i sa
+# referencjonowane przez kolumne `image_path` (sciezki wzgledem korzenia projektu).
+# Dokumentacja: https://docs.kedro.org/en/stable/catalog-data/introduction/
+
+# --- 01 raw: wynik scripts/scrape_erli.py -------------------------------------
+raw_products:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/products.csv
+  load_args:
+    dtype:
+      product_id: str
+
+# --- 02-05 data_processing ---------------------------------------------------
+validated_products:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/validated_products.parquet
+
+clean_products:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/clean_products.parquet
+
+model_input_table:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/model_input_table.parquet
+
+# --- 08 reporting ------------------------------------------------------------
+dedup_stats:
+  type: json.JSONDataset
+  filepath: data/08_reporting/dedup_stats.json
+
+class_distribution_plot:
+  type: matplotlib.MatplotlibDataset
+  filepath: data/08_reporting/class_distribution.png
+  save_args:
+    dpi: 120
+
+samples_plot:
+  type: matplotlib.MatplotlibDataset
+  filepath: data/08_reporting/samples.png
+  save_args:
+    dpi: 100
+
+# --- 04 feature_extraction (dataset factories) --------------------------------
+"{name}_features":
+  type: pickle.PickleDataset
+  filepath: data/04_feature/{name}_features.pkl
+
+"{name}_text_embeddings":
+  type: pickle.PickleDataset
+  filepath: data/04_feature/{name}_text_embeddings.pkl
+
+# --- 06 training --------------------------------------------------------------
+"{name}_model":
+  type: pickle.PickleDataset
+  filepath: data/06_models/{name}_model.pkl
+
+# --- 07/08 evaluation ---------------------------------------------------------
+"{name}_predictions":
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/{name}_predictions.parquet
+
+"{name}_metrics":
+  type: json.JSONDataset
+  filepath: data/08_reporting/metrics/{name}.json
+
+model_comparison:
+  type: pandas.CSVDataset
+  filepath: data/08_reporting/model_comparison.csv
+  save_args:
+    index: false
+
+best_model_info:
+  type: json.JSONDataset
+  filepath: data/08_reporting/best_model.json
+
+classification_report:
+  type: json.JSONDataset
+  filepath: data/08_reporting/classification_report.json
+
+"{name}_plot":
+  type: matplotlib.MatplotlibDataset
+  filepath: data/08_reporting/{name}.png
+  save_args:
+    dpi: 110
+
+# --- 06 deployment ------------------------------------------------------------
+fashion_classifier_onnx:
+  type: erli_machine_vision.datasets.OnnxModelDataset
+  filepath: data/06_models/fashion_classifier.onnx
+
+model_card:
+  type: json.JSONDataset
+  filepath: data/06_models/model_card.json
+  save_args:
+    indent: 2
+    ensure_ascii: false
+
+cv2_dnn_verification:
+  type: json.JSONDataset
+  filepath: data/08_reporting/cv2_dnn_verification.json

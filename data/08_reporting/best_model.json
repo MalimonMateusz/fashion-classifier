@@ -1,0 +1,7 @@
+{
+  "model": "clip_vit_b16_probe",
+  "val_accuracy": 0.945,
+  "val_macro_f1": 0.9406,
+  "test_accuracy": 0.9011,
+  "test_macro_f1": 0.8908
+}

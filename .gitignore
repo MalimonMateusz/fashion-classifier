@@ -1,168 +1,102 @@
 ##########################
-# KEDRO PROJECT
+# Dane i modele
+#
+# Zdjecia, cechy i wagi sa duze (ONNX ~345 MB) i odtwarzalne:
+# scripts/scrape_erli.py + `kedro run`. Gotowy model -> GitHub Releases.
 
-# ignore all local configuration
-conf/local/**
-!conf/local/.gitkeep
-.telemetry
-
-# ignore potentially sensitive credentials files
-conf/**/*credentials*
-
-# ignore everything in the following folders
 data/**
-
-# except their sub-folders
 !data/**/
+!data/**/.gitkeep
 
-# also keep all .gitkeep files
-!.gitkeep
+# ...poza malymi artefaktami, ktore dokumentuja wyniki
+!data/06_models/model_card.json
+!data/08_reporting/*.json
+!data/08_reporting/*.csv
+!data/08_reporting/metrics/*.json
 
-# ignore kedro-viz metadata
-.viz
-
-# ignore file based logs
-*.log
+# wagi modeli poza data/ (np. eksport recznie albo z notebooka)
+*.onnx
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.pkl
+*.pickle
 
 ##########################
-# Common files
+# Kedro
 
-# IntelliJ
-.idea/
-*.iml
-out/
-.idea_modules/
+# lokalna konfiguracja i sekrety
+conf/local/**
+!conf/local/.gitkeep
+conf/**/*credentials*
+.telemetry
 
-### macOS
-*.DS_Store
-.AppleDouble
-.LSOverride
-.Trashes
+# kedro-viz
+.viz/
 
-# Vim
-*~
-.*.swo
-.*.swp
+# logi
+*.log
+logs/
 
-# emacs
-*~
-\#*\#
-/.emacs.desktop
-/.emacs.desktop.lock
-*.elc
+##########################
+# Python
 
-# JIRA plugin
-atlassian-ide-plugin.xml
-
-# C extensions
-*.so
-
-### Python template
-# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
 
-# Distribution / packaging
-.Python
+# pakowanie
 build/
-develop-eggs/
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
 wheels/
 *.egg-info/
-.installed.cfg
+.eggs/
 *.egg
-MANIFEST
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-.static_storage/
-.media/
-local_settings.py
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-docs/build/
-docs/source/modules.rst
-docs/source/erli_machine_vision*.rst
-
-# PyBuilder
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
-.ipython/profile_default/history.sqlite
-.ipython/profile_default/startup/README
-
-# pyenv
-.python-version
-
-# celery beat schedule file
-celerybeat-schedule
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
+# srodowiska
+.venv/
+venv/
+env/
 .env
 .envrc
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+.python-version
 
-# mkdocs documentation
-/site
-
-# mypy
+# testy, lint, typy
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.ruff_cache/
 .mypy_cache/
+.hypothesis/
+.tox/
 
-# mlflow local runs
-mlruns/*
+# cache bibliotek (HF / torch / open_clip, jesli ustawione lokalnie)
+.cache/
 
-# IDE
+##########################
+# Notebooki
+
+.ipynb_checkpoints/
+.ipython/
+
+##########################
+# Eksperymenty
+
+mlruns/
+wandb/
+
+##########################
+# IDE i system
+
 .idea/
+*.iml
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini

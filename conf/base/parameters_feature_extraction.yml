@@ -1,0 +1,68 @@
+feature_extraction:
+  runtime:
+    batch_size: 64
+    num_workers: 6      # watki do wczytywania/preprocessingu obrazow
+    torch_threads: 6    # fizyczne rdzenie CPU (Ryzen 5 5600)
+
+  handcrafted:          # klasyczne cechy OpenCV
+    image_size: 128
+    hog_cell: 16
+    hog_block: 32
+    hog_bins: 9         # -> 7*7*4*9 = 1764 wymiary HOG
+    hsv_bins: [8, 4, 4] # -> 128 wymiarow histogramu koloru
+    num_workers: 6
+
+  backbones:
+    clip_vit_b32:
+      library: open_clip
+      model: ViT-B-32
+      pretrained: openai
+    clip_vit_b16:
+      library: open_clip
+      model: ViT-B-16
+      pretrained: datacomp_xl_s13b_b90k
+    convnext_tiny:
+      library: timm
+      model: convnext_tiny.fb_in22k_ft_in1k
+    efficientnet_b0:
+      library: timm
+      model: efficientnet_b0.ra_in1k
+
+  # CLIP zero-shot: kilka sformulowan na klase, embeddingi sa usredniane
+  zero_shot_prompts:
+    bizuteria_damska:
+      - a product photo of women's jewelry
+      - a photo of earrings, a necklace, a ring or a bracelet
+      - women's jewellery on a white background
+    bluzy_damskie:
+      - a product photo of a women's sweatshirt
+      - a photo of a woman wearing a hoodie
+      - a women's hoodie or fleece sweatshirt
+    bluzy_meskie:
+      - a product photo of a men's sweatshirt
+      - a photo of a man wearing a hoodie
+      - a men's hoodie or fleece sweatshirt
+    buty_damskie:
+      - a product photo of women's shoes
+      - women's heels, sandals, boots, slippers or sneakers
+      - a pair of women's shoes
+    buty_meskie:
+      - a product photo of men's shoes
+      - men's boots, sneakers, slippers or dress shoes
+      - a pair of men's shoes
+    galanteria_i_akcesoria:
+      - a product photo of a fashion accessory
+      - a photo of a belt, wallet, sunglasses, hat, scarf, gloves, backpack or tie
+      - leather goods and accessories
+    okrycia_wierzchnie_damskie:
+      - a product photo of a women's jacket or coat
+      - a photo of a woman wearing a winter jacket
+      - women's outerwear
+    okrycia_wierzchnie_meskie:
+      - a product photo of a men's jacket or coat
+      - a photo of a man wearing a winter jacket
+      - men's outerwear
+    zegarki:
+      - a product photo of a wristwatch
+      - a photo of a watch or a smartwatch
+      - an analog or digital wrist watch

@@ -1,0 +1,7 @@
+{
+  "model": "efficientnet_b0_probe",
+  "val_accuracy": 0.871268656716418,
+  "val_macro_f1": 0.8563264837576001,
+  "test_accuracy": 0.8013059701492538,
+  "test_macro_f1": 0.7721280151548561
+}
